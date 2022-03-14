@@ -1,4 +1,5 @@
 window.onload = loadTasks;
+// Load Tasks If Any
 function loadTasks(){
   let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
   tasks.forEach(task => {
@@ -14,10 +15,12 @@ function loadTasks(){
 
 function addTask(){
   let input = document.querySelector(".adding input")
+//   Chceck If Empty
   if(input.value === ""){
     alert("Enter a Task First...")
     return false ;
   }
+//   Chceck If Exist
   let tasks = Array.from(JSON.parse(localStorage.getItem("tasks") || "[]"));
   for(let task of tasks){
     if(task.task === input.value){
@@ -26,9 +29,12 @@ function addTask(){
       return;
     }
   }
+// Add To Local Storage
   localStorage.setItem("tasks", JSON.stringify([...JSON.parse(localStorage.getItem("tasks") || "[]"),{task: input.value, completed: false}]))
+//   Add To DOM
   let list = document.querySelector(".tasks")
   let li = document.createElement("li");
+  
   li.classList.add(`task`);
   li.innerHTML = `<input type="text" value="${input.value}">
   <p onclick="removeTask(this)">X</p>
@@ -41,12 +47,15 @@ function removeTask(task) {
   localStorage.removeItem("tasks");
   let removed = task.parentElement
   removed.remove()
+  
   let tasks = Array.from(document.querySelectorAll(".task"));
   tasks.forEach(todo => {
     todo.remove();
     localStorage.setItem("tasks", JSON.stringify([JSON.parse(localStorage.getItem("tasks") || "[]"),{task:todo.children[0].value,completed: todo.children[0].classList.contains("completed")? true : false}]))
+    
     let list = document.querySelector(".tasks");
     let li = document.createElement("li");
+    
     li.classList.add(`task`);
     li.innerHTML = `<input type="text" class=" ${todo.children[0].classList.contains("completed")? 'completed' : ''}" value="${todo.children[0].value}">
     <p onclick="removeTask(this)">X</p>
