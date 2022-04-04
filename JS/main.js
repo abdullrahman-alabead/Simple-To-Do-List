@@ -1,7 +1,10 @@
 window.onload = loadTasks;
+
 // Load Tasks If Any
+
 function loadTasks(){
   let tasks = Array.from(JSON.parse(localStorage.getItem("tasks")));
+  // Create an HTML ele for every Task
   tasks.forEach(task => {
     let list = document.querySelector(".tasks");
     let li = document.createElement("li")
@@ -13,6 +16,8 @@ function loadTasks(){
   })
 }
 
+
+// Add Task Funciton
 function addTask(){
   let input = document.querySelector(".adding input")
 //   Chceck If Empty
@@ -42,11 +47,14 @@ function addTask(){
   list.insertBefore(li, list.children[0])
   input.value = "";
 }
+
+// Remove Task Function
 function removeTask(task) {
   //remove from localStorage
   localStorage.removeItem("tasks");
   let removed = task.parentElement
   removed.remove()
+  
   
   let tasks = Array.from(document.querySelectorAll(".task"));
   tasks.forEach(todo => {
@@ -64,6 +72,8 @@ function removeTask(task) {
   })
 }
 
+
+// Set The Tasd As Completed Funciton
 function taskCompleted(task){
   let tasks = Array.from(JSON.parse(localStorage.getItem("tasks") || "[]"));
   tasks.forEach(todo => {
